@@ -2,7 +2,12 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { AddressAutofill } from '@mapbox/search-js-react';
+import dynamic from 'next/dynamic'
+
+const AddressAutofill = dynamic(
+    () => import("@mapbox/search-js-react").then((mod) => mod.AddressAutofill),
+    { ssr: false }
+  )
 
 export default function App() {
   const { register, handleSubmit, formState: { errors } } = useForm()
@@ -67,54 +72,3 @@ export default function App() {
     </div>
   );
 }
-
-/*
-
-"use client"
-
-import { useForm } from "react-hook-form"
-
-export default function App() {
-  const { register, handleSubmit } = useForm()
-  const onSubmit = (data) => console.log(data)
-  // action="/api/htmlForm" method="post"
-
-  return (
-    <div className="w-full max-w-xs py-10 m-auto">
-      <form  onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="firstName">
-          First Name
-        </label>
-        <input className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        {...register("firstName", { required: true, maxLength: 20 })} />
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lastName">
-          Last Name
-        </label>
-        <input className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        {...register("lastName", { required: true, maxLength: 20 })} />
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address">
-          Address
-        </label>
-        <input className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        {...register("address", { required: true, maxLength: 20 })} />
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="city">
-          City
-        </label>
-        <input className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        {...register("city", { required: true, maxLength: 20 })} />
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="province">
-          Province
-        </label>
-        <input className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        {...register("province", { required: true, maxLength: 20 })} />
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="postalCode">
-          Postal Code
-        </label>
-        <input className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        {...register("postalCode", { required: true, maxLength: 20 })} />
-        <input className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" />
-      </form>
-    </div>
-  )
-}
-*/
